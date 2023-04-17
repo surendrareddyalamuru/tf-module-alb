@@ -35,3 +35,19 @@ resource "aws_security_group" "main" {
     Name = "${var.env}-${var.name}-alb.sg"
   }
 }
+
+resource "aws_lb_listener" "main" {
+  load_balancer_arn = aws_lb.main.arn
+  port              = "80"
+  protocol          = "HTTP"
+
+  default_action {
+    type = "fixed-response"
+
+    fixed_response {
+      content_type = "text/plain"
+      message_body = "Fixed response content"
+      status_code  = "200"
+    }
+  }
+}
